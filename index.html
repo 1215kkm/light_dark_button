@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>낮과 밤 버튼</title>
+    <style>
+        * {margin: 0;padding: 0;}
+        li  {list-style: none;}
+        a {text-decoration: none; color: #333;}
+        body {background: #aaa;}
+
+        .sun_wrap {width: 200px; height: 80px; background: #2d6daf; border-radius: 50px; margin: 50px; box-shadow: inset 5px 5px 10px rgba(0,0,0,0.8), 2px 4px 3px rgba(255,255,255,0.5); position: relative; overflow: hidden; transition: 1s;}
+
+        .sun_wrap .cloud_box {position: absolute; width: 100%; height: 100%; bottom: -20px; transition: 1s;}
+        .sun_wrap .cloud_box span {position: absolute; background: #fff; width: 50px; height: 50px; border-radius: 50%; bottom: 0; right: 0;}
+        .sun_wrap .cloud_box span:nth-child(1) {right: 65%; bottom: -13px; width: 50px; height: 50px;}
+        .sun_wrap .cloud_box span:nth-child(2) {right: 50%; bottom: -15px; width: 60px; height: 60px;}
+        .sun_wrap .cloud_box span:nth-child(3) {right: 45%; bottom: 0px; width: 40px; height: 40px;}
+        .sun_wrap .cloud_box span:nth-child(4) {right: 30%; bottom: -20px; width: 50px; height: 50px;}
+        .sun_wrap .cloud_box span:nth-child(5) {right: 15%; bottom: -20px; width: 70px; height:70px;}
+        .sun_wrap .cloud_box span:nth-child(6) {right: 0%; bottom: 0px; width: 60px; height: 60px;}
+        .sun_wrap .cloud_box span:nth-child(7) {right: -10%; bottom: 20px;  width: 60px; height: 60px;}
+        
+        .sun_wrap .cloud_box2 {bottom: -20px; left: -10px; opacity: 0.5; transform-origin: left; transform: rotate(-5deg);}
+        
+        .sun_wrap .sun_box{width: 70px; height: 70px; z-index: 7; position: absolute; left: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; transition: 1s;}
+
+        .sun_wrap .sun_box .sun {position: absolute; width: 100%; height: 100%; border-radius: 50%; background: #fcbc17; box-shadow: inset 3px 3px 3px rgba(255,255,255,0.5), inset -3px -3px 3px rgba(0,0,0,0.2), 3px 3px 3px rgba(0,0,0,0.4); z-index: 2; overflow: hidden;}
+
+        .sun_wrap .sun_box .light_box {width: 100%; height: 100%; border-radius: 50%; position: absolute; left: 0px; top: 0; z-index: 1;}
+        .sun_wrap .sun_box .light_box span { position: absolute; width: 100%; height: 100%;  border-radius: 50%; z-index: -1; background: rgba(255,255,255,0.05);}
+        .sun_wrap .sun_box .light_box span:nth-child(1) {transform: scale(2.2);}
+        .sun_wrap .sun_box .light_box span:nth-child(2) {transform: scale(3.1)}
+        .sun_wrap .sun_box .light_box span:nth-child(3) {transform: scale(3.8)}
+
+        .star_box {width: 100%; height: 100%; position: absolute; opacity: 0; top: -100%; transition: 1s;}
+        .star_box .star {width: 20px; height: 20px; background: #fff; position: absolute; left: 50%;  transform: rotate(45deg);}
+        .star_box .star span {width: 100%; height: 100%; position: absolute; overflow: hidden;}
+        .star_box .star span:before,
+        .star_box .star span:after {content: ""; width: 200%; height: 200%; position: absolute; border-radius: 50%; background: #1a1d2d; left: 50%; top: 50%; transform: translate(-50%,-50%);}
+
+        .star_box .star span:nth-child(1):before {margin-left: -130%;}
+        .star_box .star span:nth-child(1):after {margin-left: 130%;}
+        .star_box .star span:nth-child(2):before {margin-top: -130%;}
+        .star_box .star span:nth-child(2):after {margin-top: 130%;}
+
+        .star_box .star:nth-child(1) {transform: scale(0.6) rotate(45deg); left: 20%; top: 10%;}
+        .star_box .star:nth-child(2) {transform: scale(0.4) rotate(45deg); left: 30%; top: 20%;}
+        .star_box .star:nth-child(3) {transform: scale(0.4) rotate(45deg); left: 40%; top: 30%;}
+        .star_box .star:nth-child(4) {transform: scale(0.5) rotate(45deg); left: 10%; top: 20%;}
+        .star_box .star:nth-child(5) {transform: scale(0.6) rotate(45deg); left: 30%; top: 10%;}
+        .star_box .star:nth-child(6) {transform: scale(0.4) rotate(45deg); left: 50%; top: 50%;}
+        .star_box .star:nth-child(7) {transform: scale(0.3) rotate(45deg); left: 40%; top: 70%;}
+        .star_box .star:nth-child(8) {transform: scale(0.7) rotate(45deg); left: 30%; top: 40%;}
+        .star_box .star:nth-child(9) {transform: scale(0.4) rotate(45deg); left: 20%; top: 30%;}
+        .star_box .star:nth-child(10) {transform: scale(0.5) rotate(45deg); left: 10%; top: 20%;}
+
+
+        .sun_wrap .moon_box{width: 70px; height: 70px; z-index: 7; position: absolute; left: 100%; top: 50%; transform: translateY(-50%); transition: 1s;}
+        .sun_wrap .moon_box .moon {position: absolute; width: 100%; height: 100%; border-radius: 50%; background: #ccc; box-shadow: inset 3px 3px 3px rgba(255,255,255,0.5), inset -3px -3px 3px rgba(0,0,0,0.2), 3px 3px 3px rgba(0,0,0,0.4); z-index: 2;}
+        .sun_wrap .moon_box .light_box_moon {width: 100%; height: 100%; position: absolute; left: 0px; top: 0; z-index: 7;}
+        .sun_wrap .moon_box .light_box_moon span {width: 30px; height: 30px; background: rgba(0,0,0,0.2); position: absolute; border-radius: 50%; }
+        .sun_wrap .moon_box .light_box_moon span:nth-child(1) {width: 12px; height: 12px; left: 40%; top: 12%;}
+        .sun_wrap .moon_box .light_box_moon span:nth-child(2) {width: 26px; height: 26px; left: 17%; top: 33%;}
+        .sun_wrap .moon_box .light_box_moon span:nth-child(3) {width: 16px; height: 16px; left: 60%; top: 60%;}
+
+        .sun_wrap.on {background: #1a1d2d;}
+        .sun_wrap.on .star_box {opacity: 1; top: 0;}
+        .sun_wrap.on .sun_box {left: calc(100% - 85px);}
+        .sun_wrap.on .moon_box {left: 0;}
+        .sun_wrap.on .cloud_box {bottom: -130%;}
+    </style>
+</head>
+<body>
+    <div class="sun_wrap">
+        <div class="sun_box">
+            <div class="sun">
+                <div class="moon_box">
+                    <div class="moon"></div>
+                    <div class="light_box_moon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                   </div>
+                </div>
+            </div>
+            <div class="light_box">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div class="cloud_box cloud_box1">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="cloud_box cloud_box2">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+         <div class="star_box">
+            <div class="star">
+                <span></span>
+                <span></span>
+            </div>
+            <div class="star">
+                <span></span>
+                <span></span>
+            </div>
+            <div class="star">
+                <span></span>
+                <span></span>
+            </div>
+            <div class="star">
+                <span></span>
+                <span></span>
+            </div>
+            <div class="star">
+                <span></span>
+                <span></span>
+            </div>
+            <div class="star">
+                <span></span>
+                <span></span>
+            </div>
+            <div class="star">
+                <span></span>
+                <span></span>
+            </div>
+            <div class="star">
+                <span></span>
+                <span></span>
+            </div>
+            <div class="star">
+                <span></span>
+                <span></span>
+            </div>
+            <div class="star">
+                <span></span>
+                <span></span>
+            </div>
+         </div>
+
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.sun').on('click', function () {
+                $('.sun_wrap').toggleClass('on');
+            });
+        });
+    </script>
+</body>
+</html>
