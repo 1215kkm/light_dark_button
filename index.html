@@ -8,7 +8,8 @@
         * {margin: 0;padding: 0;}
         li  {list-style: none;}
         a {text-decoration: none; color: #333;}
-        body {background: #aaa;}
+        body {background: #aaa; transition: 1s;}
+        body.on {background: #222;}
 
         .sun_wrap {width: 200px; height: 80px; background: #2d6daf; border-radius: 50px; margin: 50px; box-shadow: inset 5px 5px 10px rgba(0,0,0,0.8), 2px 4px 3px rgba(255,255,255,0.5); position: relative; overflow: hidden; transition: 1s;}
 
@@ -163,6 +164,7 @@
         $(document).ready(function () {
             $('.sun').on('click', function () {
                 $('.sun_wrap').toggleClass('on');
+                $('body').toggleClass('on')
             });
         });
     </script>
